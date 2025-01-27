@@ -21,7 +21,7 @@ jobs:
       run: |
         echo "$ssh-private-key" > private_key.pem
         chmod 400 "private_key.pem"
-        ssh -i "private_key.pem" ubuntu@ec2-44-206-251-5.compute-1.amazonaws.com << 'EOF'
+        ssh -tt -i "private_key.pem" ubuntu@ec2-44-206-251-5.compute-1.amazonaws.com << 'EOF'
           # Install NGINX if not installed
           sudo apt-get update
           sudo apt-get install nginx
