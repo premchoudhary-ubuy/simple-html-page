@@ -51,7 +51,8 @@ jobs:
     - name: Deploy Website (Step 4)
       run: |
         ssh -i ~/.ssh/id_rsa -o ServerAliveInterval=60 -o ServerAliveCountMax=5 ubuntu@ec2-44-206-251-5.compute-1.amazonaws.com << 'EOF'
-          sudo mkdir /var/yes
+          sudo git clone https://github.com/${{ github.repository }} /tmp
+          sudo cp /tmp/index.html /var/www/html/index.html
           sudo systemctl restart nginx
           EOF
 
