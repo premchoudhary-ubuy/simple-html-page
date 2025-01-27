@@ -1,3 +1,7 @@
-[target_servers]
-44.222.203.146
-
+plugin: amazon.aws.ec2
+regions:
+  - us-east-1
+filters:
+  tag:Name: git
+keyed_groups:
+  - key: git  # Group by Name tag of EC2 instances
