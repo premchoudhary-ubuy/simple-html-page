@@ -41,7 +41,7 @@ jobs:
 
           # Change the default index.html
           sudo rm -rf /var/www/html/*
-          sudo git clone https://github.com/${{ github.repository }} /tmp/
+          sudo git clone https://github.com/premchoudhary-ubuy/simple-html-page /tmp/
           sudo cp /tmp/index.html /var/www/html/index.html
           sudo systemctl restart nginx
         EOF
