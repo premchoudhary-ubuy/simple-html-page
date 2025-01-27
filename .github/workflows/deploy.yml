@@ -28,19 +28,31 @@ jobs:
         echo "Host *" > ~/.ssh/config
         echo "  StrictHostKeyChecking no" >> ~/.ssh/config
         echo "  UserKnownHostsFile /dev/null" >> ~/.ssh/config
-    - name: Install NGINX on EC2 and deploy the website
+    
+    - name: Install NGINX on EC2 (Step 1)
       run: |
-        echo "$ssh-private-key" > private_key.pem
-        chmod 400 "private_key.pem"
-        ssh -tt -i ~/.ssh/id_rsa -o ServerAliveInterval=60 -o ServerAliveCountMax=5 ubuntu@ec2-44-206-251-5.compute-1.amazonaws.com << 'EOF'
-          # Install NGINX if not installed
-          sudo apt-get update
-          sudo apt-get install nginx
+        ssh -i ~/.ssh/id_rsa -o ServerAliveInterval=60 -o ServerAliveCountMax=5 ubuntu@ec2-44-206-251-5.compute-1.amazonaws.com << 'EOF'
+          sudo apt update -y
+        EOF
+
+    - name: Install NGINX on EC2 (Step 2)
+      run: |
+        ssh -i ~/.ssh/id_rsa -o ServerAliveInterval=60 -o ServerAliveCountMax=5 ubuntu@ec2-44-206-251-5.compute-1.amazonaws.com << 'EOF'
+          sudo apt install nginx -y
+        EOF
+
+    - name: Configure NGINX (Step 3)
+      run: |
+        ssh -i ~/.ssh/id_rsa -o ServerAliveInterval=60 -o ServerAliveCountMax=5 ubuntu@ec2-44-206-251-5.compute-1.amazonaws.com << 'EOF'
           sudo systemctl start nginx
           sudo systemctl enable nginx
-
-          # Change the default index.html
-          sudo rm -rf /var/www/html/*
-          sudo git clone https://github.com/premchoudhary-ubuy/simple-html-page /var/www/html/
-          sudo systemctl restart nginx
         EOF
+
+    - name: Deploy Website (Step 4)
+      run: |
+        ssh -i ~/.ssh/id_rsa -o ServerAliveInterval=60 -o ServerAliveCountMax=5 ubuntu@ec2-44-206-251-5.compute-1.amazonaws.com << 'EOF'
+          sudo rm -rf /var/www/html/*
+          sudo git clone https://github.com/premchoudhary-ubuy/simple-html-page /var/www/html/index.html
+          sudo systemctl restart nginx
+          EOF
+
