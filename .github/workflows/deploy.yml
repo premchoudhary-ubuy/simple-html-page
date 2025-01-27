@@ -1,0 +1,36 @@
+name: Deploy to EC2
+
+on:
+  push:
+    branches:
+      - main  # Trigger when pushing to the 'main' branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up SSH
+      uses: webfactory/ssh-agent@v0.5.3
+      with:
+         SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+    - name: Install NGINX on EC2 and deploy the website
+      run: |
+        echo "$SSH_PRIVATE_KEY" > private_key.pem
+        chmod 400 "private_key.pem"
+        ssh -i "private_key.pem" ubuntu@ec2-44-206-251-5.compute-1.amazonaws.com << 'EOF'
+          # Install NGINX if not installed
+          sudo apt-get update
+          sudo apt-get install nginx
+          sudo systemctl start nginx
+          sudo systemctl enable nginx
+
+          # Change the default index.html
+          sudo rm -rf /var/www/html/*
+          sudo git clone https://github.com/${{ github.repository }} /tmp/
+          sudo cp /tmp/index.html /var/www/html/index.html
+          sudo systemctl restart nginx
+        EOF
