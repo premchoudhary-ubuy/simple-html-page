@@ -24,7 +24,9 @@ jobs:
         # Secure the private key (chmod 600)
         chmod 600 ~/.ssh/id_rsa
 
-    
+        echo "Host *" > ~/.ssh/config
+        echo "  StrictHostKeyChecking no" >> ~/.ssh/config
+        echo "  UserKnownHostsFile /dev/null" >> ~/.ssh/config
     
     - name: Install NGINX on EC2 (Step 1)
       run: |
