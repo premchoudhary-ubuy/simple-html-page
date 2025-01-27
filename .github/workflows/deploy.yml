@@ -13,15 +13,26 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
-    - name: Set up SSH
-      uses: webfactory/ssh-agent@v0.5.3
-      with:
-         ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+    - name: Set up SSH private key
+      run: |
+        # Create the .ssh directory if it doesn't exist
+        mkdir -p ~/.ssh
+
+        # Store the SSH private key from GitHub Secrets into the id_rsa file
+        echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/id_rsa
+
+        # Secure the private key (chmod 600)
+        chmod 600 ~/.ssh/id_rsa
+
+        # Disable Strict Host Key Checking to avoid the 'Host key verification failed' error
+        echo "Host *" > ~/.ssh/config
+        echo "  StrictHostKeyChecking no" >> ~/.ssh/config
+        echo "  UserKnownHostsFile /dev/null" >> ~/.ssh/config
     - name: Install NGINX on EC2 and deploy the website
       run: |
         echo "$ssh-private-key" > private_key.pem
         chmod 400 "private_key.pem"
-        ssh -o StrictHostKeyChecking=no -tt -i "private_key.pem" ubuntu@ec2-44-206-251-5.compute-1.amazonaws.com << 'EOF'
+        ssh -o StrictHostKeyChecking=no -tt -i ~/.ssh/id_rsa ubuntu@ec2-44-206-251-5.compute-1.amazonaws.com << 'EOF'
           # Install NGINX if not installed
           sudo apt-get update
           sudo apt-get install nginx
