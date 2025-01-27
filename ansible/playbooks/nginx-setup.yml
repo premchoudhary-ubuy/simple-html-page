@@ -1,6 +1,6 @@
 ---
 - name: Install and Configure Nginx
-  hosts: 44.222.203.146 
+  hosts: target_servers 
   become: yes
   tasks:
     - name: Update apt cache
