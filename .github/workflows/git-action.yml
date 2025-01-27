@@ -15,6 +15,6 @@ jobs:
 
       - name: Trigger Jenkins Job
         run: |
-          curl -X POST http://44.222.203.146:8080/job/Deploy-nginx/build \
+          curl -X POST http://44.222.203.146:8080/job/Deploy-nginx1/build \
           --user prem:11672be8b3cc19170886ec62b4a7a11900
 
