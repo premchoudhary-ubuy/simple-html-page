@@ -52,5 +52,5 @@ jobs:
         ssh -i ~/.ssh/id_rsa ubuntu@ec2-44-206-251-5.compute-1.amazonaws.com << 'EOF'
           sudo git clone https://github.com/${{ github.repository }} /var/www/html/
           sudo systemctl restart nginx
-          EOF
+        EOF
 
