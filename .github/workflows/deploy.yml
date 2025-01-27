@@ -16,10 +16,10 @@ jobs:
     - name: Set up SSH
       uses: webfactory/ssh-agent@v0.5.3
       with:
-         SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+         ssh-key: ${{ secrets.SSH_PRIVATE_KEY }}
     - name: Install NGINX on EC2 and deploy the website
       run: |
-        echo "$SSH_PRIVATE_KEY" > private_key.pem
+        echo "$ssh-key" > private_key.pem
         chmod 400 "private_key.pem"
         ssh -i "private_key.pem" ubuntu@ec2-44-206-251-5.compute-1.amazonaws.com << 'EOF'
           # Install NGINX if not installed
