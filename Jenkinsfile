@@ -3,7 +3,8 @@ pipeline {
     
     environment {
         // Using SSH key stored in Jenkins credentials
-        EC2_SSH_KEY = credentials('jenkins-ssh-key')
+        EC2_SSH_KEY = credentials('EC2_SSH')
+        ANSIBLE_HOST_KEY_CHECKING = 'False'
     }
 
     stages {
