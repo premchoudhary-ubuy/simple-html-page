@@ -2,7 +2,7 @@ plugin: aws_ec2
 regions:
   - eu-west-1
 filters:
-  "tag:Name" = "git"
+  "tag:Name": "git"
 hostnames:
   - public_ip
 
