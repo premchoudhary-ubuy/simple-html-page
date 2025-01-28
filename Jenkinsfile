@@ -21,7 +21,7 @@ pipeline {
                 script {
                     // Running Ansible Playbook to configure the server
                     sh '''
-                    ansible-playbook ./ansible/playbooks/nginx-setup.yml --inventory ./ansible/inventory  --user ubuntu --private-key $EC2_SSH_KEY
+                    ansible-playbook ./ansible/playbooks/nginx-setup.yml --inventory ./ansible/inventory.yml  --user ubuntu --private-key $EC2_SSH_KEY
                     '''
                 }
             }
