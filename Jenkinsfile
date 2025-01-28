@@ -15,18 +15,6 @@ pipeline {
                 checkout scm
             }
         }
-        stage('Install Dependencies') {
-            steps {
-                script {
-                    // Install boto3 and botocore dependencies on the Jenkins machine
-                    sh '''
-                    sudo apt-get update
-                    sudo apt-get install pip
-                    pip install boto3 botocore
-                    '''
-                }
-            }
-        }
 
         stage('Run Ansible Playbook') {
             steps {
