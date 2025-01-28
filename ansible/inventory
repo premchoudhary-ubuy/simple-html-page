@@ -3,6 +3,4 @@ regions:
   - eu-west-1
 filters:
   "tag:Name": "git"
-  "tag:Value": "gitaction"
-  "instance-state-name": "running"
 
