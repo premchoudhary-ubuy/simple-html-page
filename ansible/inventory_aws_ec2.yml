@@ -2,7 +2,7 @@ plugin: aws_ec2
 regions:
   - eu-west-1
 filters:
-  tag:Name: git
-  tag:Value: myserver
-  instance-state-name: running
+  "tag:Name": "git"
+  "tag:Value": "gitaction"
+  instance-state-name: "running"
 
