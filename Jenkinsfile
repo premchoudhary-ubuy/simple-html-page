@@ -5,6 +5,7 @@ pipeline {
         // Using SSH key stored in Jenkins credentials
         EC2_SSH_KEY = credentials('EC2_SSH')
         ANSIBLE_HOST_KEY_CHECKING = 'False'
+        AWS_ACCESS = credentials('both')
     }
 
     stages {
@@ -12,6 +13,16 @@ pipeline {
             steps {
                 // Checkout the code from the GitHub repository
                 checkout scm
+            }
+        }
+        stage('Install Dependencies') {
+            steps {
+                script {
+                    // Install boto3 and botocore dependencies on the Jenkins machine
+                    sh '''
+                    pip install boto3 botocore
+                    '''
+                }
             }
         }
 
