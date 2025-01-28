@@ -1,6 +1,6 @@
 ---
 - name: Install and Configure Nginx
-  hosts: tag_git
+  hosts: git
   become: yes
   tasks:
     - name: Update apt cache

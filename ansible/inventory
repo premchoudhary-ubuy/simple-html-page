@@ -1,7 +1,7 @@
-plugin: amazon.aws.ec2
+plugin: aws_ec2
 regions:
-  - us-east-1
+  - us-east-1  
 filters:
-  tag:Name: git
-keyed_groups:
-  - key: git  # Group by Name tag of EC2 instances
+  tag:Name: git  
+  tag:Value: myserver  
+  instance-state-name: running  
