@@ -3,6 +3,6 @@ regions:
   - eu-west-1
 filters = tag:Name=git
 hostnames:
-  - tag:Name
+  - public_ip
 
 
