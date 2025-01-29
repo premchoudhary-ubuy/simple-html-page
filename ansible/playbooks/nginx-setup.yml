@@ -18,10 +18,11 @@
         state: started
         enabled: yes
 
-    - name: Remove default index.html
+    - name: Remove default index.html if it exists
       file:
         path: /var/www/html/index.html
         state: absent
+      ignore_errors: yes  # Ignore if it's not there
 
     - name: Clone custom HTML page from GitHub
       git:
@@ -30,8 +31,58 @@
         clone: yes
         update: yes
         force: yes
+
+    - name: Backup current index.html
+      command: cp /var/www/html/index.html /var/www/html/index.html.bak
+      ignore_errors: yes  # Ignore if no file exists
+
+    - name: Deploy new index.html atomically
+      copy:
+        src: /var/www/html/index.html
+        dest: /var/www/html/index.html.new
+        mode: '0644'
+
+    - name: Rename new index.html to the correct location (atomic update)
+      command: mv /var/www/html/index.html.new /var/www/html/index.html
+
     - name: Restart Nginx service
       systemd:
         name: nginx
         state: restarted
+
+# - name: Install and Configure Nginx
+#   hosts: "{{ host_group }}"
+#   become: yes
+#   tasks:
+#     - name: Update apt cache
+#       apt:
+#         update_cache: yes
+
+#     - name: Install Nginx
+#       apt:
+#         name: nginx
+#         state: present
+
+#     - name: Start Nginx service
+#       systemd:
+#         name: nginx
+#         state: started
+#         enabled: yes
+
+#     - name: Remove default index.html
+#       file:
+#         path: /var/www/html/index.html
+#         state: absent
+
+#     - name: Clone custom HTML page from GitHub
+#       git:
+#         repo: 'https://github.com/premchoudhary-ubuy/simple-html-page'
+#         dest: /var/www/html
+#         clone: yes
+#         update: yes
+#         force: yes
+#     - name: Restart Nginx service
+#       systemd:
+#         name: nginx
+#         state: restarted
 
