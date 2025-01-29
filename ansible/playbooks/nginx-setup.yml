@@ -29,7 +29,7 @@
         dest: /var/www/html
         clone: yes
         update: yes
-
+        force: yes
     - name: Restart Nginx service
       systemd:
         name: nginx
