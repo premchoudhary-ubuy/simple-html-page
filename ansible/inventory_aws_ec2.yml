@@ -1,22 +1,9 @@
 plugin: aws_ec2
-boto_profile: sandbox
 regions:
   - eu-west-1
-# keyed_groups may be used to create custom groups
-strict: true
-keyed_groups:
-# Add hosts to tag_Name_Value groups for each Name/Value tag pair
-  - prefix: tag
-    key: tag.git
+filters:
+  tag:Name: git
+  tag:Value: gitaction
+  instance-state-name: running
 hostnames:
   - ip-address
-#plugin: aws_ec2
-#regions:
-#  - eu-west-1
-#filters:
-#  tag:Name: git
-#  tag:Value: gitaction
-#  instance-state-name: running
-
-
-
