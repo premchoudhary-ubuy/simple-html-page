@@ -21,7 +21,7 @@ pipeline {
                 script {
                     // Running Ansible Playbook to configure the server
                     sh '''
-ansible-playbook -i ./ansible/inventory.aws_ec2.yml -e 'host_group=tag_git_gitaction' playbooks/nginx-setup.yml -u ubuntu --private-key $EC2_SSH_KEY
+ansible-playbook -i ./ansible/inventory.aws_ec2.yml -e 'host_group=tag_git_gitaction' ./ansible/playbooks/nginx-setup.yml -u ubuntu --private-key $EC2_SSH_KEY
                     '''
                 }
             }
